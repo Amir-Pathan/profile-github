@@ -16,46 +16,62 @@ const style={
     }
 }
 
-function SearchUser(){
+function SearchUser({handleChange,name,handleCheckUser}){
 
-    const [userName,setUserName]= useState('')
 
-    const userNameHandler=(e)=>setUserName(e.target.value)
+    const clearName =()=>{
+        
+        handleChange('')
 
-    const navigate = useNavigate()
+        handleCheckUser(false)
 
-    const user = ()=>{
+    }
 
-        if(userName.length>0){
+    const [message,setMessage] =useState('')
 
-            navigate('/user/'+userName)
+    const isValid=()=>{
 
+        if(name.length>0){
+
+            handleCheckUser(true)
+
+        }else{
+            setMessage('Please Enter User Name')
+            handleCheckUser(false)
         }
 
     }
 
-    const clearName =()=>setUserName('')
+    const change=(e)=>{
+
+        setMessage('')
+
+        handleCheckUser(false)
+
+        handleChange(e.target.value)
+    }
 
     return(
         <div style={style.box}>
          <Input size='lg'
          placeholder='Enter User Name'
-         value={userName}
-         onChange={userNameHandler}
+         value={name}
+         onChange={change}
          style={{
             width:'90%',
             height:'40px',
             marginLeft:'5%'
          }}/>
+         <p style={{textAlign:'center',color:'red'}}>{message}</p>
          <Stack align={'center'} justify='center' spacing={2} direction='row' 
          style={{
             marginTop:'10px'
          }}>
             <Button colorScheme='teal' size='md' 
             onClick={clearName}
-            >Cancell</Button>
+            >Clear</Button>
             <Button colorScheme='teal' size={'md'}
-            onClick={user}
+            onClick={isValid}
             >Find User</Button>
          </Stack>
         </div>

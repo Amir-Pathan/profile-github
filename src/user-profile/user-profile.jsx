@@ -14,7 +14,7 @@ import {
     useColorModeValue,
   } from '@chakra-ui/react';     
 
-function UserProfile(){
+function UserProfile({name}){
 
 
     const [user,setUser] = useState({})
@@ -23,11 +23,12 @@ function UserProfile(){
 
     const [date,setDate] = useState('')
 
-    const {userName} = useParams()
+    const [notFound,setNotFound] = useState(false)
+
 
     useEffect(()=>{
         
-        axios.get('https://api.github.com/users/'+userName).then((res)=>{
+        axios.get('https://api.github.com/users/'+name).then((res)=>{
 
            setUser(res.data)
     
@@ -39,7 +40,7 @@ function UserProfile(){
 
 
         }).catch((err)=>{
-            alert('something wrong')
+            setNotFound(true)
         })
         
     },[])
@@ -102,6 +103,8 @@ function UserProfile(){
         </Box>
       </Box>
     </Center>:
+    notFound?
+    <h1 style={{textAlign:'center',marginTop:'20px',color:'red'}}>Not Found</h1>:
     null
 }
         </>

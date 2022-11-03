@@ -1,24 +1,38 @@
 import logo from './logo.svg';
 import './App.css';
-import SearchUser from './usersearch';
 import {BrowserRouter as Router, Routes,Route} from 'react-router-dom'
 import routes from './routes';
 import { ChakraProvider } from '@chakra-ui/react';
+import React,{useState} from 'react'
+import SearchUser from './usersearch';
+import UserProfile from './user-profile';
 
 function App() {
+
+  const [userName,setUserName] =useState('')
+
+  const [checkUser,setCheckUser] = useState(false)
+
+  const handleChange=(name)=>{
+
+    setUserName(name)
+
+  }
+
+  const handleCheckUser=(cntrl)=>setCheckUser(cntrl)
+
   return (
     <ChakraProvider>
-    <Router>
-      <Routes>
+        <SearchUser handleChange={(name)=>handleChange(name)} name={userName}
+        handleCheckUser={(cntrl)=>handleCheckUser(cntrl)}
+        />
         {
-             routes.map((i,index)=>{
 
-              return <Route path={i.path} element={i.component} key={index}/>
+          checkUser?
+          <UserProfile name={userName}/>
+          :null
 
-             })
         }
-      </Routes>
-    </Router>
     </ChakraProvider>
   );
 }
